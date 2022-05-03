@@ -2,6 +2,7 @@
   "name": "desafio-selaski",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -11,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mysql": "^2.18.1"
   }
 }
