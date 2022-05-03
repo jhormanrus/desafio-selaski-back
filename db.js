@@ -13,4 +13,20 @@ const connection = mysql.createPool({
 //   console.log("Successfully connected to the database.")
 // })
 
+export const query = (sql, args = null) => {
+  return new Promise((resolve, reject) => {
+    connection.query(sql, args, (err, rows) => {
+      if (err)
+        return reject(err)
+      resolve(rows)
+    })
+  })
+}
+
+export const handleError = (res, err) => {
+  res.status(500).send({
+    message: err.message || 'Some error occurred'
+  })
+}
+
 export default connection

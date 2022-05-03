@@ -1,66 +1,52 @@
 import { Router } from 'express'
-import db from '../db.js'
+import { query, handleError } from '../db.js'
 
 const router = Router()
 
+// Get All Products
 router.get('/', (req, res) => {
-  db.query('SELECT * FROM OrdersProducts', (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err.message || 'Some error occurred'
-      })
-    }
-    else res.json(data)
-  })
+  query('SELECT * FROM OrdersProducts')
+    .then(data => res.json(data))
+    .catch(err => handleError(res, err))
 })
 
+// Get Product by IdOrdersProducts
 router.get('/:id', (req, res) => {
   const id = req.params.id
-  db.query('SELECT * FROM OrdersProducts WHERE IdOrdersProducts = ?', [id], (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err.message || 'Some error occurred'
-      })
-    }
-    else res.json(data)
-  })
+  query('SELECT * FROM OrdersProducts WHERE IdOrdersProducts = ?', [id])
+    .then(data => res.json(data))
+    .catch(err => handleError(res, err))
 })
 
+// Create Product
 router.post('/', (req, res) => {
   const { idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark } = req.body
-  db.query('INSERT INTO OrdersProducts (IdOrder, ValueUnit, Unit, Description, SKU, Quantity, QtyBox, Weight, Volumen, Mark, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)', [idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark], (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err.message || 'Some error occurred'
-      })
-    }
-    else res.json(data)
-  })
+  query(
+    'INSERT INTO OrdersProducts (IdOrder, ValueUnit, Unit, Description, SKU, Quantity, QtyBox, Weight, Volumen, Mark, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)',
+    [idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark]
+  )
+    .then(data => res.json(data))
+    .catch(err => handleError(res, err))
 })
 
+// Update Product
 router.put('/:id', (req, res) => {
   const { id } = req.params
   const { idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark } = req.body
-  db.query('UPDATE OrdersProducts SET IdOrder = ?, ValueUnit = ?, Unit = ?, Description = ?, SKU = ?, Quantity = ?, QtyBox = ?, Weight = ?, Volumen = ?, Mark = ? WHERE IdOrdersProducts = ?', [idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark, id], (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err.message || 'Some error occurred'
-      })
-    }
-    else res.json(data)
-  })
+  query(
+    'UPDATE OrdersProducts SET IdOrder = ?, ValueUnit = ?, Unit = ?, Description = ?, SKU = ?, Quantity = ?, QtyBox = ?, Weight = ?, Volumen = ?, Mark = ? WHERE IdOrdersProducts = ?',
+    [idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark, id]
+  )
+    .then(data => res.json(data))
+    .catch(err => handleError(res, err))
 })
 
+// Delete Product
 router.delete('/:id', (req, res) => {
   const { id } = req.params
-  db.query('UPDATE OrdersProducts SET Status = 0 WHERE IdOrdersProducts = ?', [id], (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err.message || 'Some error occurred'
-      })
-    }
-    else res.json(data)
-  })
+  query('UPDATE OrdersProducts SET Status = 0 WHERE IdOrdersProducts = ?', [id])
+    .then(data => res.json(data))
+    .catch(err => handleError(res, err))
 })
 
 export default router
