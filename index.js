@@ -1,5 +1,4 @@
 import express, { json } from 'express'
-import mysql from 'mysql'
 import cors from 'cors'
 import routes from './routes/index.js'
 
