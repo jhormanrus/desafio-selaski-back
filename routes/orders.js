@@ -18,6 +18,22 @@ router.get('/:id', (req, res) => {
     .catch(err => handleError(res, err))
 })
 
+// Get Order by IdUser
+router.get('/user/:id', (req, res) => {
+  const id = req.params.id
+  query('SELECT * FROM Orders WHERE IdUser = ?', [id])
+    .then(async (data) => {
+      data = await Promise.all(data.map(async (order) => {
+        await query('SELECT * FROM OrdersProducts WHERE IdOrder = ?', [order.IdOrder]).then(products => {
+          order.Products = products
+        })
+        return order
+      }))
+      res.json(data)
+    })
+    .catch(err => handleError(res, err))
+})
+
 // Create Order
 router.post('/', (req, res) => {
   const { idUser, orderNumber, dateTime, providerName, dateCreated, observation, totalValue } = req.body
