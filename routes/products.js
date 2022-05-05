@@ -20,10 +20,10 @@ router.get('/:id', (req, res) => {
 
 // Create Product
 router.post('/', (req, res) => {
-  const { idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark } = req.body
+  const { IdOrder, ValueUnit, Unit, Description, Sku, Quantity, QtyBox, Weight, Volumen, Mark } = req.body
   query(
     'INSERT INTO OrdersProducts (IdOrder, ValueUnit, Unit, Description, SKU, Quantity, QtyBox, Weight, Volumen, Mark, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)',
-    [idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark]
+    [IdOrder, ValueUnit, Unit, Description, Sku, Quantity, QtyBox, Weight, Volumen, Mark]
   )
     .then(data => res.json(data))
     .catch(err => handleError(res, err))
@@ -32,10 +32,10 @@ router.post('/', (req, res) => {
 // Update Product
 router.put('/:id', (req, res) => {
   const { id } = req.params
-  const { idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark } = req.body
+  const { IdOrder, ValueUnit, Unit, Description, Sku, Quantity, QtyBox, Weight, Volumen, Mark } = req.body
   query(
     'UPDATE OrdersProducts SET IdOrder = ?, ValueUnit = ?, Unit = ?, Description = ?, SKU = ?, Quantity = ?, QtyBox = ?, Weight = ?, Volumen = ?, Mark = ? WHERE IdOrdersProducts = ?',
-    [idOrder, valueUnit, unit, description, sku, quantity, qtyBox, weight, volumen, mark, id]
+    [IdOrder, ValueUnit, Unit, Description, Sku, Quantity, QtyBox, Weight, Volumen, Mark, id]
   )
     .then(data => res.json(data))
     .catch(err => handleError(res, err))
