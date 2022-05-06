@@ -36,10 +36,10 @@ router.get('/user/:id', (req, res) => {
 
 // Create Order
 router.post('/', (req, res) => {
-  const { IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue } = req.body
+  const { IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue, PayOrder } = req.body
   query(
-    'INSERT INTO Orders (IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue, Status) VALUES (?, ?, ?, ?, ?, ?, ?, 1)',
-    [IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue]
+    'INSERT INTO Orders (IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue, Status, PayOrder) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)',
+    [IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue, PayOrder]
   )
     .then(data => res.json(data))
     .catch(err => handleError(res, err))
@@ -48,10 +48,10 @@ router.post('/', (req, res) => {
 // Update Order
 router.put('/:id', (req, res) => {
   const { id } = req.params
-  const { IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue } = req.body
+  const { IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue, PayOrder } = req.body
   query(
-    'UPDATE Orders SET IdUser = ?, OrderNumber = ?, DateTime = ?, ProviderName = ?, DateCreated = ?, Observation = ?, TotalValue = ? WHERE IdOrder = ?',
-    [IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue, id]
+    'UPDATE Orders SET IdUser = ?, OrderNumber = ?, DateTime = ?, ProviderName = ?, DateCreated = ?, Observation = ?, TotalValue = ?, PayOrder = ? WHERE IdOrder = ?',
+    [IdUser, OrderNumber, DateTime, ProviderName, DateCreated, Observation, TotalValue, PayOrder, id]
   )
     .then(data => res.json(data))
     .catch(err => handleError(res, err))
