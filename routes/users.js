@@ -9,7 +9,8 @@ router.get('/login', (req, res) => {
   query('SELECT * FROM User WHERE Email = ? AND Password = ?', [email, password])
     .then(data => {
       if (data.length > 0) {
-        const token = jwt.sign({ email, password }, 'secret')
+        const IdUser = data[0].IdUser
+        const token = jwt.sign({ email, password, IdUser }, 'secret')
         res.json({ token })
       } else {
         res.json({ error: 'Usuario o contraseña incorrectos' })
