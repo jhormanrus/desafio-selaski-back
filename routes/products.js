@@ -18,6 +18,14 @@ router.get('/:id', (req, res) => {
     .catch(err => handleError(res, err))
 })
 
+// Get Product by IdOrder
+router.get('/order/:id', (req, res) => {
+  const id = req.params.id
+  query('SELECT * FROM OrdersProducts WHERE IdOrder = ?', [id])
+    .then(data => res.json(data))
+    .catch(err => handleError(res, err))
+})
+
 // Create Product
 router.post('/', (req, res) => {
   const { IdOrder, ValueUnit, Unit, Description, Sku, Quantity, QtyBox, Weight, Volumen, Mark } = req.body
