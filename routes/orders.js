@@ -57,6 +57,15 @@ router.put('/:id', (req, res) => {
     .catch(err => handleError(res, err))
 })
 
+// Update Order Price
+router.put('/:id/price', (req, res) => {
+  const { id } = req.params
+  const { TotalValue } = req.body
+  query('UPDATE Orders SET TotalValue = ? WHERE IdOrder = ?', [TotalValue, id])
+    .then(data => res.json(data))
+    .catch(err => handleError(res, err))
+})
+
 // Delete Order
 router.delete('/:id', (req, res) => {
   const { id } = req.params
