@@ -1,7 +1,21 @@
 import { Router } from 'express'
 import { query, handleError } from '../db.js'
+import jwt from 'jsonwebtoken'
 
 const router = Router()
+
+router.get('/login', (req, res) => {
+  const { email, password } = req.query
+  query('SELECT * FROM User WHERE Email = ? AND Password = ?', [email, password])
+    .then(data => {
+      if (data.length > 0) {
+        const token = jwt.sign({ email, password }, 'secret')
+        res.json({ token })
+      } else {
+        res.json({ error: 'Usuario o contraseña incorrectos' })
+      }
+    })
+})
 
 router.get('/', (req, res) => {
   query('SELECT * FROM User')
